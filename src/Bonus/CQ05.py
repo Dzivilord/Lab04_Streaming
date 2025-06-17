@@ -7,7 +7,8 @@ import logging
 
 
 ## Remove-Item -Path ".\src\Bonus\btc_state_buffer",".\src\Bonus\main_checkpoint" -Recurse -Force -ErrorAction SilentlyContinue: Làm sạch thư mục state buffer và checkpoint trước khi chạy lại
-# =========================== CONFIGURATION ===========================
+
+
 CONFIG = {
     "KAFKA_BOOTSTRAP": "localhost:9092",
     "KAFKA_TOPIC_SOURCE": "btc-price",
@@ -17,7 +18,7 @@ CONFIG = {
     "CHECKPOINT": "./src/Bonus/main_checkpoint"
 }
 
-# =========================== SPARK SESSION ===========================
+
 def init_spark():
     os.environ["PYSPARK_PYTHON"] = "python"
     spark = SparkSession.builder \
@@ -28,14 +29,13 @@ def init_spark():
     spark.sparkContext.setLogLevel("WARN")
     return spark
 
-# =========================== KAFKA SCHEMA ===========================
+
 schema = StructType([
     StructField("symbol", StringType()),
     StructField("price", FloatType()),
     StructField("timestamp", StringType())  # ISO 8601
 ])
 
-# =========================== BATCH LOGIC ===========================
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -155,7 +155,7 @@ def write_to_kafka(name, records, topic):
     except Exception as e:
         logger.error(f"Kafka write failed ({name}): {e}")
 
-# =========================== MAIN ===========================
+
 if __name__ == "__main__":
     spark = init_spark()
 
