@@ -1,4 +1,4 @@
-# NLP_Transformer_QA-Model
+# Lab 04 - Spark Streaming
 
 ## Description
 
@@ -41,12 +41,44 @@ pip install -r requirements.txt
 ## How to run programme
 
 1.  Extract
+- Go to Kafka Folder
+- Open first terminal - Run ZooKeeper.
+```cmd
+bin/zookeeper-server-start.sh config/zookeeper.properties
+```
 
--
+- Open second terminal - Run Kafka.
+```cmd
+bin/kafka-server-start.sh config/server.properties
+```
+
+- Go to Load folder.
+- Open terminal
+```cmd
+python3 CQ05.py
+```
 
 2.  Transform
+- Make sure Kafka is running.
+- Go to Transform folder.
+- Open terminal - Run Moving program.
+```cmd
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.5 CQ05_moving.py
+```
+
+- Open another terminal - Run Zscore program.
+```cmd
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.5 CQ05_zscore.py
+```
 
 3.  Load
+- Make sure Kafka is running.
+- Go to Load folder.
+- Open terminal.
+```cmd
+spark-submit --packages org.mongodb.spark:mongo-spark-connector_2.12:10.3.0,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.5 CQ05.py
+```
+
 
 4.  Bonus
 
